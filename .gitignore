@@ -1,0 +1,57 @@
+# Python 缓存文件
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Conda 虚拟环境
+env/
+venv/
+.conda/
+
+# PyTorch 模型/缓存文件
+*.pth
+*.pt
+*.ckpt
+
+# 数据集/点云/大文件（不建议上传Git）
+data/
+datasets/
+point_clouds/
+output/
+runs/
+*.ply
+*.bin
+*.npz
+*.npy
+
+# IDE/编辑器配置
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# 日志文件
+*.log
+logs/
+
+# 个人临时笔记
+*.md.bak
+local_*.md

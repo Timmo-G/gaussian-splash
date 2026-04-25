@@ -1,0 +1,20 @@
+# 基础数学/矩阵运算（线性代数核心）
+numpy>=1.24.0
+scipy>=1.10.0
+
+# 可视化绘图
+matplotlib>=3.7.0
+opencv-python>=4.8.0
+
+# 3DGS核心依赖（PyTorch深度学习框架）
+torch>=2.0.0
+torchvision>=0.15.0
+
+# 点云处理
+open3d>=0.17.0
+
+# 数据处理
+pandas>=2.0.0
+
+# 进度条工具
+tqdm>=4.65.0
