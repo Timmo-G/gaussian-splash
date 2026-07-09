@@ -1,0 +1,673 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>3DGS Reproduction Showcase</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f6f7f9;
+      --panel: #ffffff;
+      --text: #1e2329;
+      --muted: #65707d;
+      --line: #d9dee5;
+      --accent: #0f766e;
+      --accent-2: #a44300;
+      --shadow: 0 12px 28px rgba(20, 28, 38, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.45;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    header {
+      border-bottom: 1px solid var(--line);
+      background: #ffffff;
+    }
+
+    .wrap {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      padding: 24px 0 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 24px;
+    }
+
+    h1 {
+      margin: 0 0 6px;
+      font-size: clamp(24px, 3vw, 38px);
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .meta {
+      display: grid;
+      gap: 4px;
+      text-align: right;
+      color: var(--muted);
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    nav {
+      padding: 0 0 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    nav a {
+      border: 1px solid var(--line);
+      background: #fafbfc;
+      color: #2e363f;
+      border-radius: 6px;
+      padding: 7px 10px;
+      font-size: 13px;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    main {
+      padding: 26px 0 44px;
+    }
+
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .stat {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      box-shadow: var(--shadow);
+      min-height: 92px;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 24px;
+      margin-bottom: 4px;
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .compare-card .card-head {
+      min-height: 112px;
+    }
+
+    .compare-card .media-slot {
+      display: grid;
+      grid-template-columns: 1fr;
+      height: clamp(220px, 23vw, 280px);
+      background: #111820;
+    }
+
+    .compare-card .media-slot video {
+      height: 100%;
+      aspect-ratio: auto;
+      object-fit: contain;
+    }
+
+    .compare-card .media-slot.two-up {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .compare-card .media-slot .video-item {
+      display: grid;
+      grid-template-rows: minmax(0, 1fr) auto;
+      min-height: 0;
+    }
+
+    .compare-card dl {
+      min-height: 100px;
+      align-content: start;
+    }
+
+    .card-head {
+      padding: 16px 18px 12px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 14px;
+    }
+
+    h2 {
+      margin: 0 0 5px;
+      font-size: 18px;
+      letter-spacing: 0;
+    }
+
+    .tag {
+      flex: 0 0 auto;
+      border: 1px solid #b9d6d2;
+      color: #0e625c;
+      background: #effaf8;
+      border-radius: 999px;
+      padding: 4px 8px;
+      font-size: 12px;
+      line-height: 1;
+    }
+
+    .tag.mesh {
+      border-color: #e8c3a8;
+      color: var(--accent-2);
+      background: #fff6ef;
+    }
+
+    .desc {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    video {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      display: block;
+      background: #111820;
+    }
+
+    dl {
+      display: grid;
+      grid-template-columns: 108px 1fr;
+      gap: 7px 12px;
+      margin: 0;
+      padding: 14px 18px 6px;
+      font-size: 13px;
+    }
+
+    dt {
+      color: var(--muted);
+    }
+
+    dd {
+      margin: 0;
+      min-width: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 12px 18px 18px;
+      margin-top: auto;
+    }
+
+    .links a {
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 7px 9px;
+      background: #fafbfc;
+      font-size: 13px;
+    }
+
+    .wide {
+      grid-column: 1 / -1;
+    }
+
+    .video-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1px;
+      background: var(--line);
+    }
+
+    .video-row.two-up {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .video-item {
+      background: #ffffff;
+      min-width: 0;
+    }
+
+    .video-label {
+      padding: 8px 10px;
+      font-size: 12px;
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+    }
+
+    .viewer-section {
+      margin-top: 22px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .viewer-toolbar {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+      flex-wrap: wrap;
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--line);
+      background: #ffffff;
+    }
+
+    .viewer-title h2 {
+      margin: 0 0 4px;
+    }
+
+    .viewer-title p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .viewer-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .viewer-buttons button {
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fafbfc;
+      color: #2e363f;
+      padding: 7px 10px;
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    .viewer-buttons button:disabled {
+      cursor: not-allowed;
+      color: #8b96a3;
+      background: #eef1f4;
+    }
+
+    .viewer-buttons button.active {
+      border-color: #7dc4bb;
+      background: #e9f8f5;
+      color: #0b5f59;
+    }
+
+    .viewer-frame {
+      position: relative;
+      background: #f4f6f8;
+    }
+
+    .viewer-frame canvas {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      display: block;
+      touch-action: none;
+    }
+
+    .viewer-status {
+      position: absolute;
+      left: 14px;
+      bottom: 12px;
+      border: 1px solid rgba(138, 150, 164, 0.38);
+      background: rgba(255, 255, 255, 0.82);
+      color: #374151;
+      border-radius: 6px;
+      padding: 6px 8px;
+      font-size: 12px;
+      backdrop-filter: blur(8px);
+    }
+
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 18px 0 30px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 980px) {
+      .summary,
+      .grid,
+      .video-row {
+        grid-template-columns: 1fr;
+      }
+
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .meta {
+        text-align: left;
+        white-space: normal;
+      }
+
+      .compare-card .card-head,
+      .compare-card dl {
+        min-height: 0;
+      }
+
+      .compare-card .media-slot {
+        height: auto;
+      }
+
+      .compare-card .media-slot.two-up {
+        grid-template-columns: 1fr;
+      }
+
+      .compare-card .media-slot video {
+        height: auto;
+        aspect-ratio: 16 / 9;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .wrap {
+        width: min(100% - 20px, 1240px);
+      }
+
+      .card-head {
+        flex-direction: column;
+      }
+
+      .viewer-toolbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      dl {
+        grid-template-columns: 1fr;
+        gap: 2px 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <div class="topbar">
+        <div>
+          <h1>3DGS Reproduction Showcase</h1>
+          <p class="subtitle">本地复现结果汇总：官方 3DGS、Nerfstudio、gsplat、GOF、2DGS、SuGaR、OpenSplat。</p>
+        </div>
+        <div class="meta">
+          <span>Bundle: 3dgs_demo_bundle_20260707</span>
+          <span>Dataset: Tanks and Temples truck</span>
+          <span>Updated: 2026-07-09</span>
+        </div>
+      </div>
+      <nav aria-label="Projects">
+        <a href="#official">Official 3DGS</a>
+        <a href="#nerfstudio">Nerfstudio</a>
+        <a href="#gsplat">gsplat</a>
+        <a href="#gof">GOF</a>
+        <a href="#twodgs">2DGS</a>
+        <a href="#sugar">SuGaR</a>
+        <a href="#opensplat">OpenSplat</a>
+        <a href="#interactive">Interactive</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="summary" aria-label="Summary">
+      <div class="stat"><strong>7</strong><span>已整理到展示页的项目</span></div>
+      <div class="stat"><strong>13</strong><span>可直接播放的视频 demo</span></div>
+      <div class="stat"><strong>8</strong><span>PLY / OBJ 几何资产</span></div>
+      <div class="stat"><strong>RTX 5090</strong><span>主要训练运行在 CUDA_VISIBLE_DEVICES=1</span></div>
+    </section>
+
+    <section class="grid">
+      <article class="card" id="official">
+        <div class="card-head">
+          <div>
+            <h2>Official Graphdeco 3DGS</h2>
+            <p class="desc">官方实现，truck 训练 30000 iterations，另有 train、drjohnson、playroom 场景视频。</p>
+          </div>
+          <span class="tag">Video</span>
+        </div>
+        <video src="../outputs/official_gs/truck/truck_train_30000.mp4" controls preload="metadata"></video>
+        <dl>
+          <dt>Scene</dt><dd>truck</dd>
+          <dt>Iterations</dt><dd>30000</dd>
+          <dt>Main output</dt><dd>outputs/official_gs/truck</dd>
+        </dl>
+        <div class="links">
+          <a href="../outputs/official_gs/truck/truck_train_30000.mp4">truck MP4</a>
+          <a href="../outputs/official_gs/tandt_train/tandt_train_30000.mp4">train MP4</a>
+          <a href="../outputs/official_gs/drjohnson/drjohnson_30000.mp4">drjohnson MP4</a>
+          <a href="../outputs/official_gs/playroom/playroom_train_30000.mp4">playroom MP4</a>
+        </div>
+      </article>
+
+      <article class="card" id="nerfstudio">
+        <div class="card-head">
+          <div>
+            <h2>Nerfstudio splatfacto</h2>
+            <p class="desc">用 COLMAP 兼容数据跑真实 truck，不再是 smoke dataset；导出了视频和 splat PLY。</p>
+          </div>
+          <span class="tag">Video + PLY</span>
+        </div>
+        <video src="../outputs/nerfstudio_showcase/truck/truck_dataset_7000.mp4" controls preload="metadata"></video>
+        <dl>
+          <dt>Scene</dt><dd>truck</dd>
+          <dt>Iterations</dt><dd>7000</dd>
+          <dt>Checkpoint</dt><dd>outputs/nerfstudio_showcase/truck/splatfacto/2026-07-06_171526</dd>
+        </dl>
+        <div class="links">
+          <a href="../outputs/nerfstudio_showcase/truck/truck_dataset_7000.mp4">MP4</a>
+          <a href="../outputs/nerfstudio_showcase/truck/splatfacto_truck_7000.ply">PLY</a>
+          <a href="../outputs/nerfstudio_showcase/truck/splatfacto/2026-07-06_171526/config.yml">config.yml</a>
+        </div>
+      </article>
+
+      <article class="card compare-card" id="gsplat">
+        <div class="card-head">
+          <div>
+            <h2>gsplat</h2>
+            <p class="desc">Nerfstudio team gsplat examples，truck 7000 steps，导出轨迹视频和 Gaussian PLY。</p>
+          </div>
+          <span class="tag">Video + PLY</span>
+        </div>
+        <div class="video-row media-slot">
+          <div class="video-item">
+            <video src="../outputs/gsplat/truck/videos/traj_6999.mp4" controls preload="metadata"></video>
+            <div class="video-label">trajectory RGB</div>
+          </div>
+        </div>
+        <dl>
+          <dt>Scene</dt><dd>truck</dd>
+          <dt>Steps</dt><dd>6999 checkpoint</dd>
+          <dt>Eval</dt><dd>PSNR 25.564, SSIM 0.9188, LPIPS 0.036</dd>
+        </dl>
+        <div class="links">
+          <a href="../outputs/gsplat/truck/videos/traj_6999.mp4">MP4</a>
+          <a href="../outputs/gsplat/truck/ply/point_cloud_6999.ply">PLY</a>
+        </div>
+      </article>
+
+      <article class="card compare-card" id="gof">
+        <div class="card-head">
+          <div>
+            <h2>Gaussian Opacity Fields</h2>
+            <p class="desc">GOF truck 7000 steps 已跑通训练、渲染和 TSDF mesh 导出；官方 marching tetrahedra 仍需要 tetranerf/CGAL 扩展。</p>
+          </div>
+          <span class="tag">2 Videos + Mesh</span>
+        </div>
+        <div class="video-row two-up media-slot">
+          <div class="video-item">
+            <video src="../outputs/gof/truck/gof_truck_train_7000.mp4" controls preload="metadata"></video>
+            <div class="video-label">train-view RGB</div>
+          </div>
+          <div class="video-item">
+            <video src="../outputs/gof/truck/gof_truck_tsdf_7000_turntable.mp4" controls preload="metadata"></video>
+            <div class="video-label">TSDF mesh preview</div>
+          </div>
+        </div>
+        <dl>
+          <dt>Scene</dt><dd>truck</dd>
+          <dt>Iterations</dt><dd>7000</dd>
+          <dt>Eval</dt><dd>L1 0.02829, PSNR 27.0993; TSDF mesh 390725 vertices / 721938 faces</dd>
+        </dl>
+        <div class="links">
+          <a href="../outputs/gof/truck/gof_truck_train_7000.mp4">MP4</a>
+          <a href="../outputs/gof/truck/gof_truck_tsdf_7000_turntable.mp4">mesh preview MP4</a>
+          <a href="../outputs/gof/truck/point_cloud/iteration_7000/point_cloud.ply">PLY</a>
+          <a href="../outputs/gof/truck/gof_truck_tsdf_7000.ply">TSDF mesh PLY</a>
+        </div>
+      </article>
+
+      <article class="card wide" id="twodgs">
+        <div class="card-head">
+          <div>
+            <h2>2D Gaussian Splatting</h2>
+            <p class="desc">truck 30000 iterations，主要展示训练视角、轨迹 RGB 和轨迹 depth；unbounded mesh 仅作为 raw 导出产物保留。</p>
+          </div>
+          <span class="tag">3 Videos + Raw Mesh</span>
+        </div>
+        <div class="video-row">
+          <div class="video-item">
+            <video src="../outputs/2dgs/truck/truck_train_30000.mp4" controls preload="metadata"></video>
+            <div class="video-label">train-view RGB</div>
+          </div>
+          <div class="video-item">
+            <video src="../outputs/2dgs/truck/traj/ours_30000/render_traj_color.mp4" controls preload="metadata"></video>
+            <div class="video-label">trajectory RGB</div>
+          </div>
+          <div class="video-item">
+            <video src="../outputs/2dgs/truck/traj/ours_30000/render_traj_depth.mp4" controls preload="metadata"></video>
+            <div class="video-label">trajectory depth</div>
+          </div>
+        </div>
+        <dl>
+          <dt>Scene</dt><dd>truck</dd>
+          <dt>Iterations</dt><dd>30000</dd>
+          <dt>Final metric</dt><dd>Train PSNR around 26.44</dd>
+        </dl>
+        <div class="links">
+          <a href="../outputs/2dgs/truck/truck_train_30000.mp4">train MP4</a>
+          <a href="../outputs/2dgs/truck/traj/ours_30000/render_traj_color.mp4">trajectory MP4</a>
+          <a href="../outputs/2dgs/truck/traj/ours_30000/render_traj_depth.mp4">depth MP4</a>
+          <a href="../outputs/2dgs/truck/train/ours_30000/fuse_unbounded_post.ply">raw mesh PLY</a>
+        </div>
+      </article>
+
+      <article class="card" id="sugar">
+        <div class="card-head">
+          <div>
+            <h2>SuGaR</h2>
+            <p class="desc">基于 official 3DGS truck checkpoint 完成 coarse mesh、refined Gaussian 和 textured OBJ 导出；下方为 OBJ 贴图网格转台预览。</p>
+          </div>
+          <span class="tag">Video + OBJ</span>
+        </div>
+        <video src="../outputs/sugar/truck/sugar_textured_obj_turntable.mp4" controls preload="metadata"></video>
+        <dl>
+          <dt>Scene</dt><dd>truck</dd>
+          <dt>Refinement</dt><dd>2000 iterations, gaussians per face 6</dd>
+          <dt>Mesh target</dt><dd>level 0.3, decim 200000</dd>
+        </dl>
+        <div class="links">
+          <a href="../outputs/sugar/truck/sugar_textured_obj_turntable.mp4">preview MP4</a>
+          <a href="../outputs/sugar/truck/sugarfine_3Dgs7000_densityestim02_sdfnorm02_level03_decim200000_normalconsistency01_gaussperface6.obj">OBJ</a>
+          <a href="../outputs/sugar/truck/sugarfine_3Dgs7000_densityestim02_sdfnorm02_level03_decim200000_normalconsistency01_gaussperface6.mtl">MTL</a>
+          <a href="../outputs/sugar/truck/sugarfine_3Dgs7000_densityestim02_sdfnorm02_level03_decim200000_normalconsistency01_gaussperface6.png">texture PNG</a>
+          <a href="../outputs/sugar/truck/sugarmesh_3Dgs7000_densityestim02_sdfnorm02_level03_decim200000.ply">coarse mesh PLY</a>
+        </div>
+      </article>
+
+      <article class="card" id="opensplat">
+        <div class="card-head">
+          <div>
+            <h2>OpenSplat</h2>
+            <p class="desc">C++ OpenSplat truck 结果，导出最终 PLY；下方为从 Gaussian 中心点和 SH DC 颜色生成的点云转台预览。</p>
+          </div>
+          <span class="tag">Video + PLY</span>
+        </div>
+        <video src="../outputs/opensplat/opensplat_truck_30000_turntable.mp4" controls preload="metadata"></video>
+        <dl>
+          <dt>Scene</dt><dd>truck</dd>
+          <dt>Output</dt><dd>outputs/opensplat/truck_30000.ply</dd>
+          <dt>Size</dt><dd>about 276M</dd>
+        </dl>
+        <div class="links">
+          <a href="../outputs/opensplat/opensplat_truck_30000_turntable.mp4">preview MP4</a>
+          <a href="../outputs/opensplat/truck_30000.ply">PLY</a>
+        </div>
+      </article>
+    </section>
+
+    <section class="viewer-section" id="interactive" data-viewer>
+      <div class="viewer-toolbar">
+        <div class="viewer-title">
+          <h2>Interactive Viewer</h2>
+          <p>Three.js 本地交互预览：拖拽旋转，滚轮缩放，支持 SuGaR OBJ、GOF TSDF mesh、OpenSplat 彩色采样点云。</p>
+        </div>
+        <div class="viewer-buttons" aria-label="Interactive assets">
+          <button type="button" data-viewer-asset="sugar">SuGaR OBJ</button>
+          <button type="button" data-viewer-asset="gof">GOF Mesh</button>
+          <button type="button" data-viewer-asset="opensplat">OpenSplat Points</button>
+        </div>
+      </div>
+      <div class="viewer-frame">
+        <canvas data-viewer-canvas></canvas>
+        <div class="viewer-status" data-viewer-status>Loading viewer...</div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">本页面只引用最终展示资产，不依赖训练帧目录。若移动页面，请保持它与 outputs 目录同级。</div>
+  </footer>
+  <script src="./assets/interactive_points.js?v=20260708-opensplat-pose"></script>
+  <script type="module" src="./interactive-viewer.js?v=20260708-opensplat-pose"></script>
+</body>
+</html>
